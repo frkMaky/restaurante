@@ -1,0 +1,87 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP SCHEMA IF EXISTS `restaurante` ;
+CREATE SCHEMA IF NOT EXISTS `restaurante` ;
+
+CREATE TABLE IF NOT EXISTS `restaurante`.`articulo` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(100) NULL DEFAULT NULL,
+  `cuerpo` TEXT NULL DEFAULT NULL,
+  `imagen` VARCHAR(100) NULL DEFAULT NULL,
+  `idUsuario` INT NULL DEFAULT NULL,
+  `fecha` DATE NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idUsuario` (`idUsuario` ASC) VISIBLE,
+  CONSTRAINT `articulo_ibfk_1`
+    FOREIGN KEY (`idUsuario`)
+    REFERENCES `restaurante`.`usuarios` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci
+
+CREATE TABLE IF NOT EXISTS `restaurante`.`pedido` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `idUsuario` INT NULL DEFAULT NULL,
+  `idProducto` VARCHAR(100) NULL DEFAULT NULL,
+  `cantidadProducto` VARCHAR(100) NULL DEFAULT NULL,
+  `totalProducto` VARCHAR(100) NULL DEFAULT NULL,
+  `total` DECIMAL(10,2) NULL DEFAULT NULL,
+  `estado` VARCHAR(30) NULL DEFAULT NULL,
+  `fecha` DATE NULL DEFAULT NULL,
+  `hora` TIME NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idUsuario` (`idUsuario` ASC) VISIBLE,
+  CONSTRAINT `pedido_ibfk_1`
+    FOREIGN KEY (`idUsuario`)
+    REFERENCES `restaurante`.`usuarios` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 18
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci
+
+CREATE TABLE IF NOT EXISTS `restaurante`.`producto` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) NULL DEFAULT NULL,
+  `descripcion` VARCHAR(100) NULL DEFAULT NULL,
+  `categoria` VARCHAR(50) NULL DEFAULT NULL,
+  `imagen` VARCHAR(100) NULL DEFAULT NULL,
+  `precio` DECIMAL(10,2) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 41
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci
+
+CREATE TABLE IF NOT EXISTS `restaurante`.`reservas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fecha` DATE NULL DEFAULT NULL,
+  `hora` TIME NULL DEFAULT NULL,
+  `idUsuario` INT NULL DEFAULT NULL,
+  `comensales` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idUsuario` (`idUsuario` ASC) VISIBLE,
+  CONSTRAINT `reservas_ibfk_1`
+    FOREIGN KEY (`idUsuario`)
+    REFERENCES `restaurante`.`usuarios` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 32
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci
+
+CREATE TABLE IF NOT EXISTS `restaurante`.`usuarios` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) NULL DEFAULT NULL,
+  `apellidos` VARCHAR(50) NULL DEFAULT NULL,
+  `direccion` VARCHAR(100) NULL DEFAULT NULL,
+  `email` VARCHAR(100) NULL DEFAULT NULL,
+  `telefono` VARCHAR(20) NULL DEFAULT NULL,
+  `tarjeta` VARCHAR(20) NULL DEFAULT NULL,
+  `password` VARCHAR(60) NOT NULL DEFAULT '123456',
+  `permisos` VARCHAR(60) NOT NULL DEFAULT 'usuario',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci
+
+SET FOREIGN_KEY_CHECKS = 1;
